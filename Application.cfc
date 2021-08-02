@@ -7,7 +7,8 @@ component extends=framework.one {
         routesCaseSensitive: false,
         reloadApplicationOnEveryRequest: true,
         routes: [
-			{ "/post/:slug": "/main/getPost/slug/:slug" }
+			{ "/post/:slug": "/main/getPost/slug/:slug" },
+			{ "/tag/:tag": "/main/byTag/tag/:tag" }
         ]
     };
 

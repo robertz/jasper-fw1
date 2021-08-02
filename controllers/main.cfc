@@ -16,4 +16,12 @@ component accessors = true {
 		rc['html'] = markdownService.toHtml(postService.getMarkdown(rc.slug).markdown);
     }
 
+	function bytag ( rc ) {
+		var posts = postService.list();
+		rc['tag']= rc.tag.replace("-", " ", "all")
+		rc['posts'] = posts.filter((post) => {
+			return post.tags.find(rc.tag);
+		});
+	}
+
 }
