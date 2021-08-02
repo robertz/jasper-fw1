@@ -10,8 +10,8 @@ component accessors = true {
 		rc['tags'] = postService.getTags();
     }
 
-    function post ( rc ) {
-        rc['content'] = markdownService.toHtml(postService.getMarkdown('marvel-movies-in-order').markdown);
+    function getPost ( rc ) {
+        rc['content'] = markdownService.toHtml(postService.getMarkdown(rc.slug).markdown);
     }
 
 }
