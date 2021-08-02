@@ -16,7 +16,7 @@
 							<p class="card-text">
 								<div>
 									<cfloop array="#post.tags#" item="tag">
-										<span class="badge badge-secondary">#tag#</span>
+										<span class="badge bg-secondary">#tag#</span>
 									</cfloop>
 								</div>
 								<p><a class="h4 post-link" href="/post/#post.slug#">#post.title#</a></p>

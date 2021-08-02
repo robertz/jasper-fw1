@@ -11,7 +11,9 @@ component accessors = true {
     }
 
     function getPost ( rc ) {
-        rc['content'] = markdownService.toHtml(postService.getMarkdown(rc.slug).markdown);
+		rc['post'] = postService.getFrontMatter(rc.slug);
+		rc['tags'] = postService.getTags();
+		rc['html'] = markdownService.toHtml(postService.getMarkdown(rc.slug).markdown);
     }
 
 }
