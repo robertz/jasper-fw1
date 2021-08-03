@@ -4,6 +4,7 @@ component accessors = true {
     property markdownService;
     property postService;
 	property pageService;
+	property jsoupService;
 
     function default ( rc ) {
         rc['posts'] = postService.list();
@@ -33,7 +34,22 @@ component accessors = true {
 	}
 
 	function search ( rc ) {
-
+		var posts = postService.list();
+		var output = [];
+		var id = 0;
+		posts.each((post) => {
+			output.append({
+				"id": id,
+				"slug": post.slug,
+				"title": post.title,
+				"description": post.description,
+				"body": jsoupService.parse(markdownService.toHTML(postService.getMarkdown(slug = post.slug).markdown)).text(),
+				"author": post.author
+			});
+			id++;
+		});
+		rc['docs'] = serializeJSON(output);
+		fw.setView( "main.search" );
 	}
 
 }
