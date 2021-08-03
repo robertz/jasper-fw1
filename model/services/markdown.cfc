@@ -19,7 +19,7 @@ component {
             expandPath("/lib/flexmark-html-parser-0.50.50.jar"),
             expandPath("/lib/flexmark-html2md-converter-0.50.50.jar"),
             expandPath("/lib/flexmark-util-0.50.50.jar"),
-            expandPath("/lib/jsoup-1.11.3.jar")
+            expandPath("/lib/jsoup-1.12.1.jar")
         ]);
         // Set the plugin options for the renderer
         variables.options = {
