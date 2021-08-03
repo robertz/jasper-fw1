@@ -8,7 +8,9 @@ component extends=framework.one {
         reloadApplicationOnEveryRequest: true,
         routes: [
 			{ "/post/:slug": "/main/getPost/slug/:slug" },
-			{ "/tag/:tag": "/main/byTag/tag/:tag" }
+			{ "/page/:slug": "/main/getPage/slug/:slug" },
+			{ "/tag/:tag": "/main/byTag/tag/:tag" },
+			{ "/search": "/main/search" }
         ]
     };
 
