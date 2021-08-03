@@ -6,6 +6,7 @@ component accessors = true {
 	property pageService;
 	property jsoupService;
 
+
     function default ( rc ) {
         rc['posts'] = postService.list();
 		rc['tags'] = postService.getTags();
