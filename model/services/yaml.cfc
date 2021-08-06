@@ -1,10 +1,7 @@
 component {
 
-    function init () {
-        variables.javaloader = application.javaLoaderFactory.getJavaLoader([
-            expandPath("/lib/jackson-core-2.9.9.jar"),
-            expandPath("/lib/snakeyaml-1.24.jar")
-        ]);
+    function init() {
+        variables.javaloader = application.javaLoaderFactory.getJavaLoader([expandPath('/lib/jackson-core-2.9.9.jar'), expandPath('/lib/snakeyaml-1.24.jar')]);
         return this;
     }
 
@@ -20,7 +17,7 @@ component {
     // }
 
     function deserialize(required string content) {
-        var yamlLoader = javaloader.create("org.yaml.snakeyaml.Yaml");
+        var yamlLoader = javaloader.create('org.yaml.snakeyaml.Yaml');
         return toCF(yamlLoader.load(arguments.content));
     }
 
@@ -38,8 +35,8 @@ component {
 
         // if we're in a loop iteration and the array item is simple, return it
         if (isSimpleValue(arguments.map)) {
-            if (ReFind("^(true|false)$", arguments.map)) {
-                return arguments.map == "true";
+            if (reFind('^(true|false)$', arguments.map)) {
+                return arguments.map == 'true';
             }
             return arguments.map;
         }

@@ -32,136 +32,129 @@ Example usage:
 	csvReader = javaLoader.create( 'au.com.bytecode.opencsv.CSVReader' );
 
 */
-component extends="coldspring.beans.factory.FactoryBean" accessors="true"
-{
-	property name="loadRelativePaths" type="array"
-		hint="Relative paths that will be expanded and appended to loadPaths.";
+component extends="coldspring.beans.factory.FactoryBean" accessors="true" {
 
-	property name="lockTimeout" type="numeric" default="60"
-		hint="Timeout, in seconds, for named lock used when instantiating JavaLoader instance in server scope.";
+    property name="loadRelativePaths" type="array" hint="Relative paths that will be expanded and appended to loadPaths.";
 
-	property name="objectType" type="string" default="javaloader.JavaLoader"
-		hint="Component path to JavaLoader, to allow for a non-standard CFC location (default is javaloader.JavaLoader).";
+    property
+        name="lockTimeout"
+        type="numeric"
+        default="60"
+        hint="Timeout, in seconds, for named lock used when instantiating JavaLoader instance in server scope.";
 
-	property name="serverKey" type="string"
-		hint="Server struct key to hold JavaLoader instance; recommend **not** specifying this argument, but it's here if you really want it.";
+    property
+        name="objectType"
+        type="string"
+        default="javaloader.JavaLoader"
+        hint="Component path to JavaLoader, to allow for a non-standard CFC location (default is javaloader.JavaLoader).";
 
-	property name="loadPaths"               type="array"   hint="See JavaLoader:init()";
-	property name="loadColdFusionClassPath" type="boolean" hint="See JavaLoader:init()";
-	property name="parentClassLoader"       type="string"  hint="See JavaLoader:init()";
-	property name="sourceDirectories"       type="array"   hint="See JavaLoader:init()";
-	property name="compileDirectory"        type="string"  hint="See JavaLoader:init()";
-	property name="trustedSource"           type="boolean" hint="See JavaLoader:init()";
-	property name="loadRelativePaths"       type="array"   hint="See JavaLoader:init()";
+    property
+        name="serverKey"
+        type="string"
+        hint="Server struct key to hold JavaLoader instance; recommend **not** specifying this argument, but it's here if you really want it.";
 
-
-	/********** CONSTRUCTOR ***************************************************/
-
-
-	function init()
-		hint="Constructor"
-	{
-		return this;
-	}
+    property name="loadPaths" type="array" hint="See JavaLoader:init()";
+    property name="loadColdFusionClassPath" type="boolean" hint="See JavaLoader:init()";
+    property name="parentClassLoader" type="string" hint="See JavaLoader:init()";
+    property name="sourceDirectories" type="array" hint="See JavaLoader:init()";
+    property name="compileDirectory" type="string" hint="See JavaLoader:init()";
+    property name="trustedSource" type="boolean" hint="See JavaLoader:init()";
+    property name="loadRelativePaths" type="array" hint="See JavaLoader:init()";
 
 
-	/********** PUBLIC ********************************************************/
+    /********** CONSTRUCTOR ***************************************************/
 
 
-	function getObject()
-		hint="Create/return server-scoped JavaLoader instance."
-	{
-		initLoadPaths();
-
-		initServerKey();
-
-		if ( !structKeyExists( server, getServerKey() ) )
-		{
-			lock name="#getLockName()#" timeout="#getLockTimeout()#"
-			{
-				if ( !structKeyExists( server, getServerKey() ) )
-					server[ getServerKey() ] = createObject( "component", getObjectType() ).init( argumentCollection = getJavaLoaderInitArgs() );
-			}
-		}
-
-		return server[ getServerKey() ];
-	}
+    function init() hint="Constructor" {
+        return this;
+    }
 
 
-	string function getObjectType()
-	{
-		return variables.objectType;
-	}
+    /********** PUBLIC ********************************************************/
 
 
-	boolean function isSingleton()
-	{
-		return true;
-	}
+    function getObject() hint="Create/return server-scoped JavaLoader instance." {
+        initLoadPaths();
+
+        initServerKey();
+
+        if (!structKeyExists(server, getServerKey())) {
+            lock name="#getLockName()#" timeout="#getLockTimeout()#" {
+                if (!structKeyExists(server, getServerKey()))
+                    server[getServerKey()] = createObject('component', getObjectType()).init(
+                        argumentCollection = getJavaLoaderInitArgs()
+                    );
+            }
+        }
+
+        return server[getServerKey()];
+    }
 
 
-	/********** PRIVATE *******************************************************/
+    string function getObjectType() {
+        return variables.objectType;
+    }
 
 
-	private string function createServerKey()
-		hint="Create a server key unique to JavaLoader instance by hashing init args and objectType."
-	{
-		return hash( serializeJSON( { '#getObjectType()#' = getJavaLoaderInitArgs() } ) );
-	}
+    boolean function isSingleton() {
+        return true;
+    }
 
 
-	private struct function getJavaLoaderInitArgs()
-		hint="Argument collection for JavaLoader:init()."
-	{
-		return {
-			loadPaths = getLoadPaths(),
-			loadColdFusionClassPath = getLoadColdFusionClassPath(),
-			parentClassLoader = getParentClassLoader(),
-			sourceDirectories = getSourceDirectories(),
-			compileDirectory = getCompileDirectory(),
-			trustedSource = getTrustedSource()
-		};
-	}
+    /********** PRIVATE *******************************************************/
 
 
-	private string function getLockName()
-	{
-		return 'server.#getServerKey()#';
-	}
+    private string function createServerKey()
+        hint="Create a server key unique to JavaLoader instance by hashing init args and objectType."
+    {
+        return hash(serializeJSON({'#getObjectType()#': getJavaLoaderInitArgs()}));
+    }
 
 
-	private void function initLoadPaths()
-		hint="Initialize JavaLoader load paths by appending any relative paths (loadRelativePaths), expanded, to any absolute paths (loadPaths)."
-	{
-		if ( !isNull( getLoadRelativePaths() ) )
-		{
-			var loadPaths = [];
-
-			if ( !isNull( getLoadPaths() ) )
-			{
-				loadPaths = getLoadPaths();
-			}
-
-			for ( var relPath in getLoadRelativePaths() )
-			{
-				arrayAppend( loadPaths, expandPath( relPath ) );
-			}
-
-			setLoadPaths( loadPaths );
-
-			setLoadRelativePaths( [] );
-		}
-	}
+    private struct function getJavaLoaderInitArgs() hint="Argument collection for JavaLoader:init()." {
+        return {
+            loadPaths: getLoadPaths(),
+            loadColdFusionClassPath: getLoadColdFusionClassPath(),
+            parentClassLoader: getParentClassLoader(),
+            sourceDirectories: getSourceDirectories(),
+            compileDirectory: getCompileDirectory(),
+            trustedSource: getTrustedSource()
+        };
+    }
 
 
-	private void function initServerKey()
-		hint="Initialize server key name to hold JavaLoader instance, if not explicitly provided."
-	{
-		if ( isNull( getServerKey() ) )
-		{
-			setServerKey( createServerKey() );
-		}
-	}
+    private string function getLockName() {
+        return 'server.#getServerKey()#';
+    }
 
+
+    private void function initLoadPaths()
+        hint="Initialize JavaLoader load paths by appending any relative paths (loadRelativePaths), expanded, to any absolute paths (loadPaths)."
+    {
+        if (!isNull(getLoadRelativePaths())) {
+            var loadPaths = [];
+
+            if (!isNull(getLoadPaths())) {
+                loadPaths = getLoadPaths();
+            }
+
+            for (var relPath in getLoadRelativePaths()) {
+                arrayAppend(loadPaths, expandPath(relPath));
+            }
+
+            setLoadPaths(loadPaths);
+
+            setLoadRelativePaths([]);
+        }
+    }
+
+
+    private void function initServerKey()
+        hint="Initialize server key name to hold JavaLoader instance, if not explicitly provided."
+    {
+        if (isNull(getServerKey())) {
+            setServerKey(createServerKey());
+        }
+    }
 
 }
