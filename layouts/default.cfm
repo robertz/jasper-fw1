@@ -4,9 +4,21 @@
 
 <head>
 	<meta charset="utf-8">
-	<title></title>
-	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>#rc.meta.title#</title>
+	<meta name="description" content="#rc.meta.description#">
+    <meta name="author" content="#rc.meta.author#">
+	<meta name="twitter:widgets:theme" content="light">
+	<meta name="twitter:widgets:border-color" content="##55acee">
+
+	<cfloop array="#rc.headers#" index="header">
+		<cfif header.keyExists("property")>
+			<meta property="#header.property#" content="#header.content#" />
+		<cfelse>
+			<meta name="#header.name#" content="#header.content#" />
+		</cfif>
+	</cfloop>
+
 	<link rel="stylesheet" href="/assets/css/site.css">
 	<link href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
