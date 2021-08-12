@@ -57,7 +57,8 @@ component accessors=true {
 
     function byTag(rc) {
         var posts = postService.list();
-        rc['tag'] = rc.tag.replace('-', ' ', 'all')
+        rc['tag'] = rc.tag.replace('-', ' ', 'all');
+		rc['tags'] = postService.getTags();
         rc['posts'] = posts.filter((post) => {
             return post.tags.find(rc.tag);
         });

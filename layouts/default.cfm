@@ -19,14 +19,16 @@
 		</cfif>
 	</cfloop>
 
-	<link rel="stylesheet" href="/assets/css/site.css">
+	<link rel="stylesheet" href="/assets/css/site.css?v=#getTickCount()#">
 	<link href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css" rel="stylesheet"
+		integrity="sha512-mIs9kKbaw6JZFfSuo+MovjU+Ntggfoj8RwAmJbVXQ5mkAX5LlgETQEweFPI18humSPHymTb5iikEOKWF7I8ncQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
 </head>
 
-<body style="padding-top: 70px;">
+<body>
 	<nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark">
-		<div class="container">
+		<div class="container-fluid">
 			<a class="navbar-brand" href="/">Jasper</a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="##navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
@@ -51,10 +53,10 @@
 	</nav>
 
 	<!---Container And Views --->
-	<div class="container">#body#</div>
+	<div class="container-fluid">#body#</div>
 
 	<footer class="border-top py-3 mt-5">
-		<div class="container">
+		<div class="container-fluid">
 			<small>KISDigital.com&copy; 2020 - #dateFormat(now(), "yyyy")#</small>
 		</div>
 	</footer>
